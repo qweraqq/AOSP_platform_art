@@ -552,9 +552,9 @@ bool HandleCorePlatformApiViolation(T* member,
       << "Should never enter this function when access checks are completely disabled";
 
   if (access_method != AccessMethod::kNone) {
-    LOG(WARNING) << "Core platform API violation: "
-        << Dumpable<MemberSignature>(MemberSignature(member))
-        << " from " << caller_context << " using " << access_method;
+    // LOG(WARNING) << "Core platform API violation: "
+    //     << Dumpable<MemberSignature>(MemberSignature(member))
+    //     << " from " << caller_context << " using " << access_method;
 
     // If policy is set to just warn, add kAccCorePlatformApi to access flags of
     // `member` to avoid reporting the violation again next time.
