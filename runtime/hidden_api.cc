@@ -86,19 +86,6 @@ static inline std::ostream& operator<<(std::ostream& os, AccessMethod value) {
   return os;
 }
 
-static inline std::ostream& operator<<(std::ostream& os, const AccessContext& value)
-    REQUIRES_SHARED(Locks::mutator_lock_) {
-  if (!value.GetClass().IsNull()) {
-    std::string tmp;
-    os << value.GetClass()->GetDescriptor(&tmp);
-  } else if (value.GetDexFile() != nullptr) {
-    os << value.GetDexFile()->GetLocation();
-  } else {
-    os << "<unknown_caller>";
-  }
-  return os;
-}
-
 static Domain DetermineDomainFromLocation(const std::string& dex_location,
                                           ObjPtr<mirror::ClassLoader> class_loader) {
   // If running with APEX, check `path` against known APEX locations.
@@ -555,7 +542,7 @@ bool HandleCorePlatformApiViolation(T* member,
     // LOG(WARNING) << "Core platform API violation: "
     //     << Dumpable<MemberSignature>(MemberSignature(member))
     //     << " from " << caller_context << " using " << access_method;
-
+    (void)caller_context;
     // If policy is set to just warn, add kAccCorePlatformApi to access flags of
     // `member` to avoid reporting the violation again next time.
     if (policy == EnforcementPolicy::kJustWarn) {
